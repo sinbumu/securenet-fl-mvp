@@ -1,0 +1,43 @@
+services:
+  server:
+    build:
+      context: ./ai
+    image: securenet-fl-ai
+    container_name: securenet-fl-server
+    command: python server.py
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ai:/app/ai # To access saved model if needed, and for code changes without rebuild
+
+  bankA:
+    build:
+      context: ./ai
+    image: securenet-fl-ai
+    container_name: securenet-fl-bank-a
+    command: python client.py --csv-path /app/data/paysim_a.csv --client-id 0
+    volumes:
+      - ./data:/app/data
+      - ./ai:/app/ai # Mount ai to save the model back to host
+    depends_on:
+      - server
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  bankB:
+    build:
+      context: ./ai
+    image: securenet-fl-ai
+    container_name: securenet-fl-bank-b
+    command: python client.py --csv-path /app/data/paysim_b.csv --client-id 1
+    volumes:
+      - ./data:/app/data
+      - ./ai:/app/ai
+    depends_on:
+      - server
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  data:
+  ai: 

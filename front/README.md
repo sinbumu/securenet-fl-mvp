@@ -39,7 +39,7 @@
     프로젝트 **루트 디렉토리**에서 다음 명령어를 실행하여 모든 서비스를 시작합니다. 이 명령어는 `front/Dockerfile`을 사용해 프론트엔드 이미지를 빌드하고, 컨테이너를 실행합니다.
 
     ```bash
-    docker compose up --build -d
+    docker compose up --build -d frontend
     ```
     -   `--build`: 소스 코드 변경 시 이미지를 새로 빌드합니다.
     -   `-d`: 컨테이너를 백그라운드에서 실행합니다.

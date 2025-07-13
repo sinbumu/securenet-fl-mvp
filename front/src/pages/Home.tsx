@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ShieldCheck, Globe, TrendingUp } from 'lucide-react';
 
 const Home: React.FC = () => {

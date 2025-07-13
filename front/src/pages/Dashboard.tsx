@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
       if (ctx) {
         // Generate initial data points
         const initialData = Array.from({ length: 10 }, (_, i) => ({
-          x: new Date(Date.now() - (9 - i) * 60000).toISOString(),
+          x: Date.now() - (9 - i) * 60000,
           y: 0.80 + Math.random() * 0.10
         }));
 
@@ -122,10 +122,10 @@ const Dashboard: React.FC = () => {
       // Update chart
       if (chartInstance.current) {
         const newDataPoint = {
-          x: new Date().toISOString(),
+          x: Date.now(),
           y: riskScore / 100
         };
-        chartInstance.current.data.datasets[0].data.push(newDataPoint);
+        chartInstance.current.data.datasets[0].data.push(newDataPoint as any);
         
         // Keep only last 10 points
         if (chartInstance.current.data.datasets[0].data.length > 10) {
@@ -157,7 +157,7 @@ const Dashboard: React.FC = () => {
       }
 
       // Update suspicious accounts table
-      const newAccounts = Array.from({ length: 10 }, (_, i) => ({
+      const newAccounts = Array.from({ length: 10 }, () => ({
         id: (window as any).faker?.finance?.iban() || `ACCT${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
         score: (window as any).faker?.datatype?.number({ min: 70, max: 99, precision: 0.01 }) || 70 + Math.random() * 29
       }));
@@ -241,8 +241,8 @@ const Dashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {suspiciousAccounts.map((account, index) => (
-                <tr key={index} className="border-b border-dark-700 hover:bg-dark-600/50 transition-colors">
+              {suspiciousAccounts.map((account) => (
+                <tr key={account.id} className="border-b border-dark-700 hover:bg-dark-600/50 transition-colors">
                   <td className="py-3 px-4 text-gray-300 font-mono text-sm">{account.id}</td>
                   <td className="py-3 px-4">
                     <span className={`font-semibold ${

@@ -78,7 +78,11 @@ sudo usermod -a -G docker ec2-user
 # exit
 
 # (재접속 후) Docker Compose v2 설치
-sudo yum install docker-compose-plugin -y
+# yum 으로 설치 시, 일부 환경에서 패키지를 찾지 못하는 경우가 있어 curl 로 직접 설치합니다.
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
 
 # 설치 확인
 docker --version

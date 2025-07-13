@@ -45,12 +45,79 @@ SecureNet-FL은 다수의 금융 기관(은행)이 각자의 데이터를 외부
   - 입력된 데이터를 전처리하고, 로드된 XGBoost 모델로 예측을 수행합니다.
   - 예측된 사기 확률을 `{"riskScore": 98.75}` 와 같은 형태의 JSON으로 반환합니다.
 
-### 3단계: 클라우드 배포 (진행 예정)
+### 3단계: API 서버 배포 (AWS EC2)
 
-개발된 API 서버를 클라우드 환경에 배포하여 안정적으로 운영하고, 외부에서 접근 가능하도록 합니다.
+개발된 API 서버를 클라우드 환경에 배포하여 안정적으로 운영하고, 외부에서 접근 가능하도록 하는 단계입니다.
 
-- **목표**: `FastAPI` 서버를 `Docker` 이미지로 빌드하고, `AWS` 클라우드에 배포합니다.
-- **기술 스택**: `Docker`, `AWS` (예: `ECR`에 이미지 저장, `ECS` 또는 `EC2`로 서비스 실행)
+#### 1. EC2 인스턴스 준비
+
+- **추천 사양**: `t3.micro` (vCPU 2, 1 GiB Memory) - AWS 프리티어에 포함되어 비용 효율적입니다.
+- **운영체제(AMI)**: Amazon Linux 2 또는 Ubuntu
+- **보안 그룹**: 인바운드 규칙에 **8000번 포트**를 추가하여 API 서버에 접근할 수 있도록 허용해야 합니다.
+
+#### 2. 서버 환경 구축 (EC2 인스턴스 접속 후)
+
+EC2 인스턴스에 접속하여 API 서버 실행에 필요한 Git, Docker, Docker Compose를 설치합니다. (Amazon Linux 2 기준)
+
+```bash
+# 시스템 패키지 업데이트
+sudo yum update -y
+
+# Git 설치
+sudo yum install git -y
+
+# Docker 설치 및 실행
+sudo yum install docker -y
+sudo systemctl start docker
+
+# ec2-user가 sudo 없이 docker 명령을 사용하도록 권한 추가
+sudo usermod -a -G docker ec2-user
+
+# --- 중요 ---
+# 권한 적용을 위해 터미널에서 나갔다가 다시 접속해야 합니다.
+# exit
+
+# (재접속 후) Docker Compose v2 설치
+sudo yum install docker-compose-plugin -y
+
+# 설치 확인
+docker --version
+docker compose version
+```
+
+#### 3. 소스코드 배포
+
+- **배포 키(Deploy Key) 사용 권장**: EC2 인스턴스에서 서버에만 접근 가능한 SSH 키를 생성하여 GitHub 저장소에 등록하는 방식입니다. 이 방식은 GitHub 계정 비밀번호나 개인용 토큰을 서버에 저장하지 않아도 되므로 더 안전합니다.
+
+```bash
+# 1. EC2 인스턴스에서 SSH 키 생성 (프롬프트는 Enter로 기본값 사용)
+ssh-keygen -t ed25519 -C "your-email@example.com"
+
+# 2. 생성된 공개 키 확인 및 복사
+cat ~/.ssh/id_ed25519.pub
+
+# 3. GitHub 저장소에 배포 키 등록
+#    - 프로젝트 GitHub > Settings > Deploy keys > "Add deploy key"
+#    - Title: "EC2 API Server" 등 식별 가능한 이름 입력
+#    - Key: 위에서 복사한 공개 키 붙여넣기 (`ssh-ed25519...`)
+#    - "Allow write access"는 체크 해제 (보안 강화)
+
+# 4. SSH 주소로 프로젝트 클론
+#    <your-github-username>/<your-repo-name> 부분을 실제 정보로 변경
+git clone git@github.com:<your-github-username>/securenet-fl-mvp.git
+```
+
+#### 4. API 서버 실행
+
+```bash
+# 클론된 프로젝트 디렉토리로 이동
+cd securenet-fl-mvp/
+
+# Docker Compose를 사용하여 API 서버 빌드 및 실행
+docker compose up --build -d api
+```
+
+서버가 정상적으로 실행되면 `http://<EC2 인스턴스 Public IP>:8000` 주소로 API를 호출할 수 있습니다.
 
 ### 데이터 관리 (과거 BoltDB 사용 이력)
 

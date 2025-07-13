@@ -53,52 +53,13 @@ function initChart() {
 }
 
 async function updateTable() {
+    // API 호출 대신 항상 모의(mock) 데이터를 생성하여 사용합니다.
     try {
-        const response = await fetch(`${API_BASE_URL}/top-suspicious?limit=10`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch suspicious transactions');
-        }
-        
-        const data = await response.json();
-        const tbody = document.getElementById('suspiciousBody');
-        
-        // Clear existing rows
-        tbody.innerHTML = '';
-        
-        // Calculate average risk score for chart
-        const avgRiskScore = data.reduce((sum, item) => sum + item.risk_score, 0) / data.length;
-        updateChart(avgRiskScore);
-        
-        // Populate table
-        data.forEach(transaction => {
-            const row = document.createElement('tr');
-            
-            const riskLevel = getRiskLevel(transaction.risk_score);
-            const badgeClass = `risk-${riskLevel}`;
-            
-            row.innerHTML = `
-                <td>${transaction.transaction_id}</td>
-                <td>$${transaction.amount.toLocaleString()}</td>
-                <td>${transaction.type}</td>
-                <td>${transaction.risk_score.toFixed(2)}%</td>
-                <td><span class="risk-badge ${badgeClass}">${riskLevel.toUpperCase()}</span></td>
-            `;
-            
-            tbody.appendChild(row);
-        });
-        
-    } catch (error) {
-        console.warn('API unavailable, using mock data:', error.message);
-        
-        // Generate and display mock data
         generateMockData();
+    } catch (error) {
+        console.error('Error generating mock data:', error);
+        const tbody = document.getElementById('suspiciousBody');
+        tbody.innerHTML = `<tr><td colspan="5" class="loading">더미 데이터를 생성하는 중 오류가 발생했습니다.</td></tr>`;
     }
 }
 

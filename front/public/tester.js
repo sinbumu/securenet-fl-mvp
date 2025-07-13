@@ -34,9 +34,18 @@ async function submitForm(event) {
     const formData = {
         amount: parseFloat(document.getElementById('amount').value),
         oldbalanceOrg: parseFloat(document.getElementById('oldBalance').value),
-        newbalanceDest: parseFloat(document.getElementById('newBalance').value),
+        newbalanceOrig: parseFloat(document.getElementById('newBalance').value), // MISTAKE FIXED: newbalanceDest -> newbalanceOrig
         type: document.getElementById('transactionType').value
     };
+
+    // Validate inputs
+    if (Object.values(formData).some(v => v === null || (typeof v === 'number' && isNaN(v)))) {
+        resultElement.textContent = '모든 필드를 올바른 숫자로 입력해주세요.';
+        resultElement.className = 'result-badge result-error';
+        loadingElement.style.display = 'none';
+        resultElement.style.display = 'inline-block';
+        return;
+    }
     
     try {
         const response = await fetch(`${API_BASE_URL}/risk-score`, {
@@ -53,22 +62,17 @@ async function submitForm(event) {
         
         const data = await response.json();
         
-        // Display result
-        const riskScore = data.risk_score || data.riskScore || 0;
-        const riskLevel = data.risk_level || data.riskLevel || getRiskLevel(riskScore);
+        // Display result - aassuming API returns { riskScore: 0.xx, riskLevel: "xxx" }
+        const riskScorePercent = (data.riskScore * 100).toFixed(2);
+        const riskLevel = data.riskLevel.toUpperCase();
         
-        resultElement.textContent = `위험도 점수: ${riskScore.toFixed(2)}% (${riskLevel.toUpperCase()})`;
-        resultElement.className = `result-badge result-${riskLevel}`;
+        resultElement.textContent = `위험도 점수: ${riskScorePercent}% (${riskLevel})`;
+        resultElement.className = `result-badge result-${data.riskLevel}`;
         
     } catch (error) {
         console.error('Error:', error);
-        
-        // Show mock result for demo purposes
-        const mockRiskScore = Math.random() * 100;
-        const mockRiskLevel = getRiskLevel(mockRiskScore);
-        
-        resultElement.textContent = `위험도 점수: ${mockRiskScore.toFixed(2)}% (${mockRiskLevel.toUpperCase()}) [모의 데이터]`;
-        resultElement.className = `result-badge result-${mockRiskLevel}`;
+        resultElement.textContent = `오류가 발생했습니다: ${error.message}`;
+        resultElement.className = 'result-badge result-error';
     } finally {
         // Hide loading and show result
         loadingElement.style.display = 'none';

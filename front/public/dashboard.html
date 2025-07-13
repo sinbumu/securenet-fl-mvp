@@ -190,6 +190,12 @@
             color: #94a3b8;
             padding: 2rem;
         }
+
+        .dummy-notice {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body>
@@ -228,14 +234,14 @@
         </div>
 
         <div class="chart-container">
-            <h2 class="chart-title">실시간 위험도 점수</h2>
+            <h2 class="chart-title">실시간 위험도 점수 <span class="dummy-notice">(더미 예시입니다)</span></h2>
             <div class="chart-wrapper">
                 <canvas id="riskChart"></canvas>
             </div>
         </div>
 
         <div class="table-container">
-            <h2 class="table-title">상위 10개 의심 거래</h2>
+            <h2 class="table-title">상위 10개 의심 거래 <span class="dummy-notice">(더미 예시입니다)</span></h2>
             <table class="table">
                 <thead>
                     <tr>
@@ -248,7 +254,7 @@
                 </thead>
                 <tbody id="suspiciousBody">
                     <tr>
-                        <td colspan="5" class="loading">데이터를 로딩 중...</td>
+                        <td colspan="2" class="loading">데이터를 로딩 중...</td>
                     </tr>
                 </tbody>
             </table>

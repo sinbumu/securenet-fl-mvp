@@ -194,16 +194,16 @@
         <div class="hero">
             <h1>연합학습 데모</h1>
             <p>실제 연합학습 과정을 시뮬레이션하여 여러 은행이 데이터를 공유하지 않고도 협력하여 사기 탐지 모델을 학습하는 과정을 확인하세요.</p>
-            <button class="play-btn" id="playBtn" onclick="startDemo()">데모 시작</button>
+            <button class="play-btn" id="playBtn" onclick="controlDemo()">데모 시작</button>
         </div>
 
         <div class="logs-container">
             <div class="logs-tabs">
-                <button class="tab-btn active" onclick="switchTab('server')">서버 로그</button>
-                <button class="tab-btn" onclick="switchTab('bank_a')">Bank A</button>
-                <button class="tab-btn" onclick="switchTab('bank_b')">Bank B</button>
-                <button class="tab-btn" onclick="switchTab('bank_c')">Bank C</button>
-                <button class="tab-btn" onclick="switchTab('evaluation')">평가 로그</button>
+                <button class="tab-btn active" data-log-type="server" onclick="switchTab(this)">서버 로그</button>
+                <button class="tab-btn" data-log-type="bank_a" onclick="switchTab(this)">Bank A</button>
+                <button class="tab-btn" data-log-type="bank_b" onclick="switchTab(this)">Bank B</button>
+                <button class="tab-btn" data-log-type="bank_c" onclick="switchTab(this)">Bank C</button>
+                <button class="tab-btn" data-log-type="evaluation" onclick="switchTab(this)">평가 로그</button>
             </div>
             
             <div class="log-content" id="logContent">
@@ -214,6 +214,6 @@
         </div>
     </div>
 
-    <script src="loadLogs.js"></script>
+    <script src="/loadLogs.js"></script>
 </body>
 </html>

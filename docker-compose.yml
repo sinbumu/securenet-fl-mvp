@@ -1,66 +1,94 @@
 services:
-  server:
+  frontend:
     build:
-      context: ./ai
-    image: securenet-fl-ai
-    container_name: securenet-fl-server
-    command: python server.py
+      context: ./front
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    volumes:
-      - ./ai:/app/ai # To access saved model if needed, and for code changes without rebuild
-
-  bankA:
-    build:
-      context: ./ai
-    image: securenet-fl-ai
-    container_name: securenet-fl-bank-a
-    command: python client.py --csv-path /app/data/paysim_a.csv --client-id 0
-    volumes:
-      - ./data:/app/data
-      - ./ai:/app/ai # Mount ai to save the model back to host
+      - "80:80"
     depends_on:
-      - server
-    environment:
-      - PYTHONUNBUFFERED=1
-
-  bankB:
-    build:
-      context: ./ai
-    image: securenet-fl-ai
-    container_name: securenet-fl-bank-b
-    command: python client.py --csv-path /app/data/paysim_b.csv --client-id 1
-    volumes:
-      - ./data:/app/data
-      - ./ai:/app/ai
-    depends_on:
-      - server
-    environment:
-      - PYTHONUNBUFFERED=1
-
-  bankC:
-    build:
-      context: ./ai
-    image: securenet-fl-ai
-    container_name: securenet-fl-bank-c
-    command: python client.py --csv-path /app/data/paysim_c.csv --client-id 2
-    volumes:
-      - ./data:/app/data
-      - ./ai:/app/ai
-    depends_on:
-      - server
-    environment:
-      - PYTHONUNBUFFERED=1
+      - api
+    networks:
+      - securenet_network
 
   api:
     build:
       context: ./api
-    container_name: securenet-fl-api
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./api:/app
+      - ./ai/global_model.bin:/app/global_model.bin
+    networks:
+      - securenet_network
+  
+  # AI clients - these run to completion and don't need to be exposed
+  client_a:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    command: python client.py --partition=0 --model-path=/app/models/global_model.bin --log-path=/app/logs/bank_a.log
+    volumes:
+      - ./ai/global_model.bin:/app/models/global_model.bin
+      - ./logs:/app/logs
+    depends_on:
+      - server
+    networks:
+      - securenet_network
 
-volumes:
-  data:
-  ai: 
+  client_b:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    command: python client.py --partition=1 --model-path=/app/models/global_model.bin --log-path=/app/logs/bank_b.log
+    volumes:
+      - ./ai/global_model.bin:/app/models/global_model.bin
+      - ./logs:/app/logs
+    depends_on:
+      - server
+    networks:
+      - securenet_network
+
+  client_c:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    command: python client.py --partition=2 --model-path=/app/models/global_model.bin --log-path=/app/logs/bank_c.log
+    volumes:
+      - ./ai/global_model.bin:/app/models/global_model.bin
+      - ./logs:/app/logs
+    depends_on:
+      - server
+    networks:
+      - securenet_network
+  
+  server:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    command: python server.py --log-path=/app/logs/server.log
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ai/global_model.bin:/app/models/global_model.bin
+      - ./logs:/app/logs
+    networks:
+      - securenet_network
+
+  evaluate:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    command: python server.py --evaluate --log-path=/app/logs/evaluate_model.log
+    volumes:
+      - ./ai/global_model.bin:/app/models/global_model.bin
+      - ./logs:/app/logs
+    depends_on:
+      - client_a
+      - client_b
+      - client_c
+    networks:
+      - securenet_network
+
+networks:
+  securenet_network:
+    driver: bridge

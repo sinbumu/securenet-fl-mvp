@@ -38,6 +38,20 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
 
+  bankC:
+    build:
+      context: ./ai
+    image: securenet-fl-ai
+    container_name: securenet-fl-bank-c
+    command: python client.py --csv-path /app/data/paysim_c.csv --client-id 2
+    volumes:
+      - ./data:/app/data
+      - ./ai:/app/ai
+    depends_on:
+      - server
+    environment:
+      - PYTHONUNBUFFERED=1
+
 volumes:
   data:
   ai: 

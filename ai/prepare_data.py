@@ -1,54 +1,54 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 import os
+import numpy as np
+from sklearn.model_selection import train_test_split
 
-def prepare_data():
+def prepare_data(input_path="data/PS_20174392719_1491204439457_log.csv", output_dir="data"):
     """
-    Loads the original paysim dataset, performs a stratified split based on
-    the 'isFraud' column, and saves the two resulting datasets for Bank A and Bank B.
+    Loads a CSV, splits it into training (90%) and evaluation (10%) sets.
+    The training set is then further split into three parts for the clients.
     """
-    # Define file paths
-    original_data_path = 'data/PS_20174392719_1491204439457_log.csv'
-    bank_a_path = 'data/paysim_a.csv'
-    bank_b_path = 'data/paysim_b.csv'
-    data_dir = 'data'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
-    # Check if data directory exists
-    if not os.path.exists(data_dir):
-        print(f"Directory '{data_dir}' not found. Please make sure the data is in the correct location.")
-        return
+    # Load the dataset
+    df = pd.read_csv(input_path)
+    print(f"Original dataset loaded with {len(df)} rows.")
 
-    # Check if source file exists
-    if not os.path.exists(original_data_path):
-        print(f"Original data file not found at '{original_data_path}'")
-        return
-
-    print(f"Loading original dataset from '{original_data_path}'...")
-    df = pd.read_csv(original_data_path)
-
-    print("Splitting the dataset into two parts (50/50) with stratification...")
+    # Split into training and evaluation sets (90% train, 10% test)
+    # Using stratify on 'isFraud' to ensure both sets have a similar fraud ratio
+    train_df, eval_df = train_test_split(df, test_size=0.1, random_state=42, stratify=df['isFraud'])
     
-    # We create a dummy 'y' for splitting, as train_test_split needs it.
-    # The actual features are the entire dataframe.
-    X = df.index
-    y = df['isFraud']
+    print(f"Split data into {len(train_df)} training rows and {len(eval_df)} evaluation rows.")
 
-    # First split: 50% for bank_a_df, 50% for the rest
-    X_a, X_b, y_a, y_b = train_test_split(X, y, test_size=0.5, random_state=42, stratify=y)
+    # Save the evaluation dataset
+    output_eval = os.path.join(output_dir, 'evaluation.csv')
+    eval_df.to_csv(output_eval, index=False)
+    print(f"- Saved evaluation data to {output_eval}")
+
+    # Shuffle and split the training data for the three clients
+    shuffled_train_df = train_df.sample(frac=1, random_state=42).reset_index(drop=True)
     
-    bank_a_df = df.loc[X_a]
-    bank_b_df = df.loc[X_b]
+    # Split the DataFrame into three parts using indices
+    part_size = len(shuffled_train_df) // 3
+    df_a = shuffled_train_df.iloc[0:part_size]
+    df_b = shuffled_train_df.iloc[part_size:2*part_size]
+    df_c = shuffled_train_df.iloc[2*part_size:]
 
-    print(f"Saving dataset for Bank A to '{bank_a_path}'...")
-    bank_a_df.to_csv(bank_a_path, index=False)
 
-    print(f"Saving dataset for Bank B to '{bank_b_path}'...")
-    bank_b_df.to_csv(bank_b_path, index=False)
+    # Define and save client data paths
+    output_a = os.path.join(output_dir, 'paysim_a.csv')
+    output_b = os.path.join(output_dir, 'paysim_b.csv')
+    output_c = os.path.join(output_dir, 'paysim_c.csv')
 
-    print("Data preparation complete.")
-    print(f"Bank A data shape: {bank_a_df.shape}, Fraud cases: {bank_a_df['isFraud'].sum()}")
-    print(f"Bank B data shape: {bank_b_df.shape}, Fraud cases: {bank_b_df['isFraud'].sum()}")
+    df_a.to_csv(output_a, index=False)
+    df_b.to_csv(output_b, index=False)
+    df_c.to_csv(output_c, index=False)
 
+    print(f"Training data split into three files for clients:")
+    print(f"- {output_a} with {len(df_a)} rows")
+    print(f"- {output_b} with {len(df_b)} rows")
+    print(f"- {output_c} with {len(df_c)} rows")
 
 if __name__ == "__main__":
     prepare_data() 

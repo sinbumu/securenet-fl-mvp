@@ -1,0 +1,51 @@
+Client started, waiting for 10 seconds before connecting...
+Starting client 2 with data from /app/data/paysim_c.csv
+Dataset: /app/data/paysim_c.csv
+Number of features: 14
+Feature columns: ['step', 'amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest', 'isFlaggedFraud', 'errorBalanceOrig', 'errorBalanceDest', 'type_CASH_IN', 'type_CASH_OUT', 'type_DEBIT', 'type_PAYMENT', 'type_TRANSFER']
+X shape: (1908786, 14)
+Training DMatrix feature count: 14
+Test DMatrix feature count: 14
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1752317864.105926      34 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message dd4b3118-35ab-4458-83f9-3931227100cb
+--- [Client 2] Round 1: Received model. Starting local training... ---
+I0000 00:00:1752317864.116514      34 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+Client 2: Training epoch 1 complete.
+--- [Client 2] Round 1: Local training finished. Sending update to server. ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 09db097a-cf8f-49b1-a55c-f34982ff406b
+--- [Client 2] Round 1: Evaluation results -> Accuracy: 0.9997, Loss: 0.5953 ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 2314f7c3-449d-4f95-a7bf-6e8fa1e28278
+--- [Client 2] Round 2: Received model. Starting local training... ---
+Client 2: Training epoch 1 complete.
+--- [Client 2] Round 2: Local training finished. Sending update to server. ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 30b070bf-0c78-4422-b93f-cbc335ffb5c8
+--- [Client 2] Round 2: Evaluation results -> Accuracy: 0.9997, Loss: 0.5185 ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 4b48b09a-ca24-4876-bc35-36477efea378
+--- [Client 2] Round 3: Received model. Starting local training... ---
+Client 2: Training epoch 1 complete.
+--- [Client 2] Round 3: Local training finished. Sending update to server. ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 549574fb-2d5b-4555-862a-efa3d6bbe9db
+--- [Client 2] Round 3: Evaluation results -> Accuracy: 0.9997, Loss: 0.4544 ---
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: reconnect message f31df9a5-ec03-4f54-abcb-27facf2c918c
+[92mINFO [0m:      Disconnect and shut down

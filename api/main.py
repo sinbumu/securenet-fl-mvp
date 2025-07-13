@@ -22,6 +22,7 @@ app = FastAPI(
 # --- CORS Middleware Settings ---
 # 프론트엔드 애플리케이션의 주소를 허용합니다.
 origins = [
+    "http://13.209.117.252", # EC2 배포 주소
     "https://phenomenal-alfajores-024c07.netlify.app",
     "https://bolt.new", # Bolt.new 개발/테스트 환경용
     "http://localhost", # 로컬 테스트용

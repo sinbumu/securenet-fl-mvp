@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL Demo - SecureNet FL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 0;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f8eed;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #1f8eed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            margin-bottom: 3rem;
+            border-radius: 12px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1f8eed, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .play-btn {
+            background: #1f8eed;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .play-btn:hover {
+            background: #1d7ce8;
+            transform: translateY(-2px);
+        }
+        
+        .play-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .logs-container {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #334155;
+        }
+        
+        .logs-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: #1f8eed;
+            border-bottom-color: #1f8eed;
+        }
+        
+        .log-content {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-height: 400px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            overflow-y: auto;
+            border: 1px solid #334155;
+        }
+        
+        .log-line {
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .status.running {
+            color: #10b981;
+        }
+        
+        .status.completed {
+            color: #1f8eed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SecureNet FL</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/fl-demo.html">FL Demo</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/tester.html">API Tester</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>연합학습 데모</h1>
+            <p>실제 연합학습 과정을 시뮬레이션하여 여러 은행이 데이터를 공유하지 않고도 협력하여 사기 탐지 모델을 학습하는 과정을 확인하세요.</p>
+            <button class="play-btn" id="playBtn" onclick="startDemo()">데모 시작</button>
+        </div>
+
+        <div class="logs-container">
+            <div class="logs-tabs">
+                <button class="tab-btn active" onclick="switchTab('server')">서버 로그</button>
+                <button class="tab-btn" onclick="switchTab('bank_a')">Bank A</button>
+                <button class="tab-btn" onclick="switchTab('bank_b')">Bank B</button>
+                <button class="tab-btn" onclick="switchTab('bank_c')">Bank C</button>
+                <button class="tab-btn" onclick="switchTab('evaluation')">평가 로그</button>
+            </div>
+            
+            <div class="log-content" id="logContent">
+                데모를 시작하려면 위의 "데모 시작" 버튼을 클릭하세요.
+            </div>
+            
+            <div class="status" id="status"></div>
+        </div>
+    </div>
+
+    <script src="loadLogs.js"></script>
+</body>
+</html>

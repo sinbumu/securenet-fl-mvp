@@ -1,0 +1,29 @@
+--- Starting Model Evaluation ---
+Loading model from ai/global_model.bin...
+Model loaded successfully.
+Loading evaluation data from data/evaluation.csv...
+Evaluation data prepared.
+
+--- Performing Prediction ---
+Prediction complete.
+
+--- Evaluation Results ---
+✅ Accuracy: 0.9996 (99.96%)
+✅ AUC Score: 0.9989
+
+Classification Report:
+              precision    recall  f1-score   support
+
+   Not Fraud       1.00      1.00      1.00    635441
+       Fraud       0.78      1.00      0.88       821
+
+    accuracy                           1.00    636262
+   macro avg       0.89      1.00      0.94    636262
+weighted avg       1.00      1.00      1.00    636262
+
+Confusion Matrix:
+               Predicted
+              Not Fraud | Fraud
+Actual Not Fraud | 635210  | 231  
+Actual Fraud     | 2       | 819  
+---------------------------------

@@ -1,0 +1,47 @@
+/usr/local/lib/python3.9/site-packages/xgboost/core.py:160: UserWarning: [10:57:28] WARNING: /workspace/src/c_api/c_api.cc:1240: Saving into deprecated binary model format, please consider using `json` or `ubj`. Model format will default to JSON in XGBoost 2.2 if not specified.
+  warnings.warn(smsg, UserWarning)
+[92mINFO [0m:      Starting Flower server, config: num_rounds=3, no round_timeout
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1752317848.157755      34 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+[92mINFO [0m:      Flower ECE: gRPC server running (3 rounds), SSL is disabled
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Using initial global parameters provided by strategy
+[92mINFO [0m:      Evaluating initial global parameters
+[92mINFO [0m:      initial parameters (loss, other metrics): None, {}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1]
+I0000 00:00:1752317848.163309      34 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+[92mINFO [0m:      configure_fit: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_fit: received 3 results and 0 failures
+[92mINFO [0m:      fit progress: (1, None, {}, 16.516525758)
+[92mINFO [0m:      configure_evaluate: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_evaluate: received 3 results and 0 failures
+[93mWARNING [0m:   No evaluate_metrics_aggregation_fn provided
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 2]
+[92mINFO [0m:      configure_fit: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_fit: received 3 results and 0 failures
+[92mINFO [0m:      fit progress: (2, None, {}, 16.657093175)
+[92mINFO [0m:      configure_evaluate: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_evaluate: received 3 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 3]
+[92mINFO [0m:      configure_fit: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_fit: received 3 results and 0 failures
+[92mINFO [0m:      fit progress: (3, None, {}, 16.785130091999974)
+[92mINFO [0m:      configure_evaluate: strategy sampled 3 clients (out of 3)
+[92mINFO [0m:      aggregate_evaluate: received 3 results and 0 failures
+[92mINFO [0m:      
+[92mINFO [0m:      [SUMMARY]
+[92mINFO [0m:      Run finished 3 rounds in 16.86s
+[92mINFO [0m:      History (loss, distributed):
+[92mINFO [0m:      	('\tround 1: 0.5952701369921366\n'
+[92mINFO [0m:      	 '\tround 2: 0.518519659837087\n'
+[92mINFO [0m:      	 '\tround 3: 0.4544561803340912\n')History (loss, centralized):
+[92mINFO [0m:      	'\tround 0: None\n\tround 1: None\n\tround 2: None\n\tround 3: None\n'
+[92mINFO [0m:      
+--- [Server] Starting Flower server with 3 rounds... ---
+--- [Server] Round 1: Aggregated updates. Broadcasting model from client 6bee2774b60140e2a26223b115b1f9ea for next round. ---
+--- [Server] Round 2: Aggregated updates. Broadcasting model from client 6bee2774b60140e2a26223b115b1f9ea for next round. ---
+--- [Server] Round 3: Aggregated updates. Broadcasting model from client 6bee2774b60140e2a26223b115b1f9ea for next round. ---
+--- [Server] Round 3: Final round complete. Instructing client 0 to save the final model. ---

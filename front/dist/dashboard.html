@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SecureNet FL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 0;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f8eed;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #1f8eed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1f8eed, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .kpi-card {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .kpi-title {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f8eed;
+        }
+        
+        .chart-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 3rem;
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #e2e8f0;
+        }
+        
+        .chart-wrapper {
+            height: 400px;
+            position: relative;
+        }
+        
+        .table-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+        
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #e2e8f0;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background: #334155;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #e2e8f0;
+            border-bottom: 1px solid #475569;
+        }
+        
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .table tr:hover {
+            background: #334155;
+        }
+        
+        .risk-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .risk-high {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .risk-medium {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .risk-low {
+            background: #10b981;
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #94a3b8;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SecureNet FL</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/fl-demo.html">FL Demo</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/tester.html">API Tester</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">실시간 모니터링 대시보드</h1>
+        
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">AUC</div>
+                <div class="kpi-value" id="aucValue">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Recall</div>
+                <div class="kpi-value" id="recallValue">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">False Positive Rate</div>
+                <div class="kpi-value" id="fprValue">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Model Version</div>
+                <div class="kpi-value" id="modelVersion">-</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2 class="chart-title">실시간 위험도 점수</h2>
+            <div class="chart-wrapper">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2 class="table-title">상위 10개 의심 거래</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>거래 ID</th>
+                        <th>금액</th>
+                        <th>유형</th>
+                        <th>위험도 점수</th>
+                        <th>위험 수준</th>
+                    </tr>
+                </thead>
+                <tbody id="suspiciousBody">
+                    <tr>
+                        <td colspan="5" class="loading">데이터를 로딩 중...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="metrics.js"></script>
+    <script src="table.js"></script>
+</body>
+</html>

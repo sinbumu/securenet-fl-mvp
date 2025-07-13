@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom fade-in animation */
+.fade-in {
+  animation: fade 0.8s ease-out;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Enhanced Swagger UI Dark Theme */
+.swagger-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.swagger-container .swagger-ui {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.swagger-container .swagger-ui .scheme-container {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.swagger-container .swagger-ui .info {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.swagger-container .swagger-ui .info .title {
+  color: #1f8eed;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.swagger-container .swagger-ui .info .description {
+  color: #e2e8f0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.swagger-container .swagger-ui .opblock {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.swagger-container .swagger-ui .opblock-summary {
+  background: #334155;
+  border-bottom: 1px solid #334155;
+  padding: 1rem 1.5rem;
+}
+
+.swagger-container .swagger-ui .opblock-summary-description {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.swagger-container .swagger-ui .opblock-summary-method {
+  background: #1f8eed;
+  color: white;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.swagger-container .swagger-ui .opblock-description-wrapper {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1rem 1.5rem;
+}
+
+.swagger-container .swagger-ui .opblock-body {
+  background: #1e293b;
+  padding: 1rem 1.5rem;
+}
+
+.swagger-container .swagger-ui .parameters-container {
+  background: #1e293b;
+  padding: 1rem 0;
+}
+
+.swagger-container .swagger-ui .parameter__name {
+  color: #1f8eed;
+  font-weight: 600;
+}
+
+.swagger-container .swagger-ui .parameter__type {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.swagger-container .swagger-ui .parameter__description {
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.swagger-container .swagger-ui .btn {
+  background: #1f8eed;
+  border: 1px solid #1f8eed;
+  color: white;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.swagger-container .swagger-ui .btn:hover {
+  background: #1d7ce8;
+  border-color: #1d7ce8;
+  transform: translateY(-1px);
+}
+
+.swagger-container .swagger-ui .btn.try-out__btn {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.swagger-container .swagger-ui .btn.try-out__btn:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.swagger-container .swagger-ui .btn.execute {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.swagger-container .swagger-ui .btn.execute:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.swagger-container .swagger-ui .responses-wrapper {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.swagger-container .swagger-ui .response {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.swagger-container .swagger-ui .response:last-child {
+  border-bottom: none;
+}
+
+.swagger-container .swagger-ui .response-col_status {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.swagger-container .swagger-ui .response-col_description {
+  color: #e2e8f0;
+}
+
+.swagger-container .swagger-ui .model-container {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.swagger-container .swagger-ui .model {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1rem;
+}
+
+.swagger-container .swagger-ui .model-title {
+  color: #1f8eed;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.swagger-container .swagger-ui .prop-type {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.swagger-container .swagger-ui .prop-name {
+  color: #1f8eed;
+  font-weight: 600;
+}
+
+.swagger-container .swagger-ui .prop-format {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.swagger-container .swagger-ui textarea {
+  background: #334155;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.swagger-container .swagger-ui input[type="text"] {
+  background: #334155;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.swagger-container .swagger-ui .topbar {
+  display: none; /* Hide the default topbar */
+}
+
+.swagger-container .swagger-ui .servers {
+  background: #334155;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.swagger-container .swagger-ui .servers-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.swagger-container .swagger-ui .servers select {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+/* Enhanced code blocks */
+.swagger-container .swagger-ui .highlight-code {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+}
+
+.swagger-container .swagger-ui .microlight {
+  color: #e2e8f0;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

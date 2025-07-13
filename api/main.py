@@ -26,6 +26,7 @@ origins = [
     "https://bolt.new", # Bolt.new 개발/테스트 환경용
     "http://localhost", # 로컬 테스트용
     "http://localhost:3000", # 로컬 테스트용 (React 기본 포트)
+    "http://localhost:5173", # 로컬 테스트용 (React 기본 포트)
 ]
 
 app.add_middleware(

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Tester - SecureNet FL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 0;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f8eed;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #1f8eed;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #1f8eed, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .form-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #1f8eed;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: #1f8eed;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1d7ce8;
+        }
+        
+        .btn-secondary {
+            background: #475569;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #64748b;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        
+        .result-container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+        
+        .result-badge {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-width: 200px;
+        }
+        
+        .result-low {
+            background: #10b981;
+            color: white;
+        }
+        
+        .result-medium {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .result-high {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .result-error {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .sample-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .loading {
+            display: none;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SecureNet FL</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/fl-demo.html">FL Demo</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/tester.html">API Tester</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">API 테스터</h1>
+        
+        <div class="form-container">
+            <form id="riskForm">
+                <div class="form-group">
+                    <label class="form-label" for="amount">거래 금액</label>
+                    <input type="number" id="amount" class="form-input" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="oldBalance">이전 잔액</label>
+                    <input type="number" id="oldBalance" class="form-input" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="newBalance">새 잔액</label>
+                    <input type="number" id="newBalance" class="form-input" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="transactionType">거래 유형</label>
+                    <select id="transactionType" class="form-select" required>
+                        <option value="">선택하세요</option>
+                        <option value="CASH_IN">CASH_IN</option>
+                        <option value="CASH_OUT">CASH_OUT</option>
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="PAYMENT">PAYMENT</option>
+                        <option value="TRANSFER">TRANSFER</option>
+                    </select>
+                </div>
+                
+                <div class="sample-buttons">
+                    <button type="button" class="btn btn-success" onclick="loadLowRiskSample()">저위험 샘플</button>
+                    <button type="button" class="btn btn-danger" onclick="loadHighRiskSample()">고위험 샘플</button>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">위험도 점수 확인</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">초기화</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="result-container">
+            <h3 class="result-title">API 응답 결과</h3>
+            <div id="result" class="result-badge result-error">
+                위의 폼을 작성하고 "위험도 점수 확인" 버튼을 클릭하세요.
+            </div>
+            <div id="loading" class="loading">API 요청 중...</div>
+        </div>
+    </div>
+
+    <script src="tester.js"></script>
+</body>
+</html>
